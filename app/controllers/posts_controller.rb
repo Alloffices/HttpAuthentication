@@ -1,5 +1,9 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  #82 HTTP Basic Authentication
+  #Use when you want to send out a beta to test out the application and 
+  #or fixbugs
+  before_filter :authenticate
 
   # GET /posts
   # GET /posts.json
@@ -58,6 +62,16 @@ class PostsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+#82 HTTP Basic Authentication
+#Use when you want to send out a beta to test out the application and 
+#or fixbugs
+  protected
+  def authenticate
+    authenticate_or_request_with_http_basic do |username, password|
+      username == "foo" && password == "bar"
     end
   end
 
